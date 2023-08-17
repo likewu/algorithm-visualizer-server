@@ -14,6 +14,8 @@ import { errorHandlerMiddleware, frontendMiddleware, redirectMiddleware } from '
 import { execute, issueHttpsCertificate, pull } from 'utils/misc';
 import { frontendBuildDir, frontendBuiltDir, frontendDir, rootDir } from 'config/paths';
 
+import fs from 'fs-extra';
+
 const Webhook = require('express-github-webhook');
 
 export default class Server {
@@ -91,7 +93,23 @@ export default class Server {
   };
 
   async updateFrontend(commit?: string) {
-    await pull(frontendDir, 'algorithm-visualizer', commit);
+    if (fs.pathExistsSync(frontendDir)) {
+      await execute(`git fetch`, {
+        cwd: frontendDir,
+        stdout: process.stdout,
+        stderr: process.stderr,
+      });
+    } else {
+      await execute(`git clone https://github.com/likewu/algorithm-visualizer.git ${frontendDir}`, {
+        stdout: process.stdout,
+        stderr: process.stderr,
+      });
+    }
+    await execute(`git reset --hard origin/master`, {
+      cwd: frontendDir,
+      stdout: process.stdout,
+      stderr: process.stderr,
+    });
     await execute([
       'npm install',
       'npm run build',
