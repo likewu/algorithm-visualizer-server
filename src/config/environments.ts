@@ -46,10 +46,10 @@ const missingVars = [
   ...(isEnabled(WEBHOOK_ENABLED) ? [
     'WEBHOOK_SECRET',
   ] : []),
-  'GITHUB_CLIENT_ID',
-  'GITHUB_CLIENT_SECRET',
-  'AWS_ACCESS_KEY_ID',
-  'AWS_SECRET_ACCESS_KEY',
+  //'GITHUB_CLIENT_ID',
+  //'GITHUB_CLIENT_SECRET',
+  //'AWS_ACCESS_KEY_ID',
+  //'AWS_SECRET_ACCESS_KEY',
 ].filter(variable => process.env[variable] === undefined);
 if (missingVars.length) throw new Error(`The following environment variables are missing: ${missingVars.join(', ')}`);
 
