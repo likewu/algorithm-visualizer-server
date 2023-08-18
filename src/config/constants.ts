@@ -1,2 +1,2 @@
-export const memoryLimit = 256; // in megabytes
-export const timeLimit = 5000; // in milliseconds
+export const memoryLimit = 512; // in megabytes
+export const timeLimit = 50000; // in milliseconds
